@@ -17,9 +17,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
+const allowedOrigins = [
+  'https://project-upflairs-frontend.onrender.com',
+  'http://localhost:5173'
+];
+
 app.use(cors({
-    origin: 'http://localhost:5173', // frontend origin
-    credentials: true
+  origin: allowedOrigins,
+  credentials: true, // if using cookies/auth headers
 }));
 app.use(bodyParser.json());
 
