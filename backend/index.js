@@ -18,13 +18,19 @@ const __dirname = path.dirname(__filename);
 
 // Middleware
 const allowedOrigins = [
-  'https://project-upflairs-frontend.onrender.com',
-  'http://localhost:5173'
+  "http://localhost:5173",
+  "https://project-upflairs-frontend.onrender.com"
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
-  credentials: true, // if using cookies/auth headers
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
 app.use(bodyParser.json());
 
@@ -37,10 +43,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Test route for API
 app.get("/", (req, res) => {
-    res.send("Server is running!");
+  res.send("Server is running!");
 });
 
 // Start server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
