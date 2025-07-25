@@ -15,7 +15,7 @@ const AdminLogin = () => {
         e.preventDefault();
         try {
             const res = await axios.post(
-                "https://project-upflairs.onrender.com/user/login",
+                "https://project-upflairs.onrender.com/admin/login",
                 formData
             );
             const { jwtToken, userData } = res.data.data;
