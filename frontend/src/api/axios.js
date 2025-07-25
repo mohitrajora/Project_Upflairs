@@ -1,8 +1,7 @@
-// src/api/axios.js
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "http://localhost:5000/product", 
+    baseURL: `${import.meta.env.VITE_API_BASE_URL}/product`,
     headers: {
         "Content-Type": "application/json",
     },
