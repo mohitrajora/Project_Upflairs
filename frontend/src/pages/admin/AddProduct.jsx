@@ -17,7 +17,7 @@ const AddProduct = () => {
         if (name === "image") {
             setFormData((prev) => ({
                 ...prev,
-                image: files[0], // use first file
+                image: files[0],
             }));
         } else {
             setFormData((prev) => ({
@@ -39,12 +39,16 @@ const AddProduct = () => {
         form.append("image", formData.image);
 
         try {
-            const res = await axios.post("http://localhost:5000/product/product-create", form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const res = await axios.post(
+                "https://project-upflairs.onrender.com/product/product-create",
+                form,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
             toast.success("Product added!");
             setFormData({ title: "", price: "", image: null });

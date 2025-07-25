@@ -44,7 +44,7 @@ const ProductList = () => {
 
             {/* Image */}
             <img
-              src={`http://localhost:5000/uploads/${product.image}`}
+              src={`https://project-upflairs.onrender.com/uploads/${product.image}`}
               alt={product.title}
               className="w-full h-64 object-cover transition duration-300 ease-in-out group-hover:opacity-90"
             />

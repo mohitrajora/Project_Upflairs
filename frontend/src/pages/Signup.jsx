@@ -18,7 +18,10 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5000/user/register", formData);
+            const response = await axios.post(
+                "https://project-upflairs.onrender.com/user/register",
+                formData
+            );
             console.log("Signup successful:", response.data);
             toast.success("Signup successful!");
         } catch (err) {

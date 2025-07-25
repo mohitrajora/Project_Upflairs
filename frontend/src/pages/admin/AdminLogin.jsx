@@ -14,7 +14,10 @@ const AdminLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:5000/user/login", formData);
+            const res = await axios.post(
+                "https://project-upflairs.onrender.com/user/login",
+                formData
+            );
             const { jwtToken, userData } = res.data.data;
 
             localStorage.setItem("token", jwtToken);

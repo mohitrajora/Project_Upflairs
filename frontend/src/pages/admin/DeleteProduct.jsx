@@ -8,7 +8,7 @@ const DeleteProduct = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/product/product-get-all");
+            const res = await axios.get("https://project-upflairs.onrender.com/product/product-get-all");
             console.log("Fetched data:", res.data);
             setProducts(res.data.data || []);
         } catch (err) {
@@ -25,7 +25,11 @@ const DeleteProduct = () => {
 
         const token = localStorage.getItem("token");
         try {
-            await axios.delete(`http://localhost:5000/product/product-delete/${productId}`);
+            await axios.delete(`https://project-upflairs.onrender.com/product/product-delete/${productId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             toast.success("Product deleted!");
             setProducts((prev) => prev.filter((p) => p._id !== productId));
         } catch (err) {
@@ -56,7 +60,7 @@ const DeleteProduct = () => {
                             className="border p-4 rounded-md shadow-sm hover:shadow-lg transition"
                         >
                             <img
-                                src={`http://localhost:5000/uploads/${product.image}`}
+                                src={`https://project-upflairs.onrender.com/uploads/${product.image}`}
                                 alt={product.title}
                                 className="w-full h-40 object-cover mb-4 rounded"
                             />

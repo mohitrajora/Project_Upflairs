@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../api/axios"; // ✅ using centralized axios instance
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:5000/user/login", formData);
+            const res = await axios.post("/user/login", formData);
             const { jwtToken, userData } = res.data.data;
 
             // Save JWT and user info to localStorage
@@ -69,7 +69,9 @@ const Login = () => {
 
                 <p className="text-center text-sm text-gray-600 mt-4">
                     Don't have an account?{" "}
-                    <a href="/signup" className="text-blue-500 hover:underline">Sign Up</a>
+                    <a href="/signup" className="text-blue-500 hover:underline">
+                        Sign Up
+                    </a>
                 </p>
             </div>
         </div>

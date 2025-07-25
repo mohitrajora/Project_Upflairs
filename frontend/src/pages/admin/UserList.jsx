@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast"; // Optional, for showing alerts
+import toast from "react-hot-toast";
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
@@ -12,7 +12,7 @@ const UserList = () => {
 
     const fetchUsers = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/user/getAllUser");
+            const res = await axios.get("https://project-upflairs.onrender.com/user/getAllUser");
             const userList = res.data?.users || res.data?.data || [];
             setUsers(userList);
         } catch (err) {
@@ -32,21 +32,16 @@ const UserList = () => {
                 return;
             }
 
-            const res = await axios.delete(
-                `http://localhost:5000/user/userDelete/${userId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    },
-                }
-            );
+            await axios.delete(`https://project-upflairs.onrender.com/user/userDelete/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-            // Success
             toast.success("User deleted successfully");
             setUsers(users.filter((user) => user._id !== userId));
         } catch (err) {
-            console.error("Failed to delete user", err.response || err.message);
+            console.error("Failed to delete user", err?.response || err?.message);
 
             if (err.response?.status === 401) {
                 toast.error("Unauthorized. Token missing or invalid");
@@ -59,31 +54,33 @@ const UserList = () => {
     };
 
     return (
-        <div className="p-6 bg-white rounded shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">All Users</h2>
+        <div className="p-4">
+            <h2 className="text-2xl font-bold mb-4">User List</h2>
 
             {loading ? (
-                <p className="text-gray-500">Loading users...</p>
-            ) : users.length > 0 ? (
-                <table className="w-full border border-gray-300">
+                <p>Loading users...</p>
+            ) : users.length === 0 ? (
+                <p>No users found.</p>
+            ) : (
+                <table className="w-full table-auto border border-collapse">
                     <thead>
-                        <tr className="bg-gray-100">
-                            <th className="p-2 border">Username</th>
-                            <th className="p-2 border">Email</th>
-                            <th className="p-2 border">Role</th>
-                            <th className="p-2 border">Actions</th>
+                        <tr className="bg-gray-200">
+                            <th className="border px-4 py-2">Name</th>
+                            <th className="border px-4 py-2">Email</th>
+                            <th className="border px-4 py-2">Role</th>
+                            <th className="border px-4 py-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.map((user) => (
                             <tr key={user._id} className="text-center">
-                                <td className="p-2 border">{user.username}</td>
-                                <td className="p-2 border">{user.email}</td>
-                                <td className="p-2 border capitalize">{user.role}</td>
-                                <td className="p-2 border">
+                                <td className="border px-4 py-2">{user.name}</td>
+                                <td className="border px-4 py-2">{user.email}</td>
+                                <td className="border px-4 py-2 capitalize">{user.role}</td>
+                                <td className="border px-4 py-2">
                                     <button
                                         onClick={() => deleteUser(user._id)}
-                                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-all duration-200"
+                                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                                     >
                                         Delete
                                     </button>
@@ -92,8 +89,6 @@ const UserList = () => {
                         ))}
                     </tbody>
                 </table>
-            ) : (
-                <p className="text-gray-500">No users found.</p>
             )}
         </div>
     );
